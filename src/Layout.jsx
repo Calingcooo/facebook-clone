@@ -4,12 +4,12 @@ import Footer from "./components/Footer";
 
 const Layout = () => {
   const location = useLocation();
-  const isLoginPage = location.pathname === "/login";
+  const isLoginPage = location.pathname === "/";
 
   return (
     <div className="flex flex-col h-screen">
       {!isLoginPage && <Header />}
-      <main className="flex-grow">
+      <main className="flex-grow bg-gray-100">
         <Outlet />
       </main>
       <Footer />
