@@ -1,20 +1,19 @@
 import { Outlet, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 const Layout = () => {
   const location = useLocation();
-  const isLoginPage = location.pathname === "/";
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   return (
-    <div className="flex flex-col w-screen h-full bg-gray-100">
-      {isLoginPage && <Header />}
+    <div className="flex flex-col min-w-screen min-h-screen bg-gray-100">
+      {isLoggedIn && <Header />}
       <main className="flex flex-grow">
         <Outlet />
       </main>
-      <footer className="bg-white w-full">
-        <Footer />
-      </footer>
+      {!isLoggedIn && <Footer />}
     </div>
   );
 };

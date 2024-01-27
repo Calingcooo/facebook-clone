@@ -1,19 +1,22 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "../../redux/reducers/auth/auth";
+import { logout } from "../../redux/reducers/auth/auth";
 
 const Home = () => {
-  // const count = useSelector((state) => state.counter.value);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
   const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    alert("Paalam tanga!")
+    dispatch((logout()))
+  }
+
+  console.log(isLoggedIn)
 
   return (
     <div>
-      <button
-        onClick={() => dispatch(login())}
-        className="border border-green-500 bg-green-200 font-bold px-5 rounded-md"
-      >
-        Test
-      </button>
+      <button onClick={handleLogout}>Logout</button>
+      Home
     </div>
   );
 };
