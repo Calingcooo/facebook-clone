@@ -1,7 +1,44 @@
-import fb_logo from "../assets/fb_logo.png";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/reducers/auth/auth";
+import axios from "axios";
 import Button from "../components/styled-components/Button";
+import fb_logo from "../assets/fb_logo.png";
 
 const Login = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const dispatch = useDispatch();
+
+  const handleDataOnChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3000/auth/api/login",
+        {
+          email: formData.email,
+          password: formData.password,
+        }
+      );
+      console.log(data);
+      alert("Welcome sayo tanga!");
+      dispatch(login());
+    } catch (error) {
+      alert("Mali ang email at password, tanga ka talaga!");
+      console.log(error);
+    }
+  };
+
+  console.log(formData);
   return (
     <div className="flex flex-row max-w-[975px] m-auto justify-between py-40">
       <div className="flex-wrap  pr-8 pt-16">
@@ -12,16 +49,22 @@ const Login = () => {
       </div>
       <div className="flex flex-col items-center w-full max-w-[396px]">
         <div className="w-full form-container pt-3 pb-5 px-4 rounded-lg bg-white">
-          <form className="flex flex-col w-full">
+          <form className="flex flex-col w-full" onSubmit={handleLogin}>
             <input
-              type="text"
+              type="email"
               className="border border-gray-200 text-lg rounded-[8px] px-4 py-3 placeholder-gray-500 focus:placeholder-gray-400 focus:outline-none focus:border-blue-500 caret-blue-500 focus:shadow-sm  "
               placeholder="Email or phone number"
+              name="email"
+              value={formData.email}
+              onChange={handleDataOnChange}
             />
             <input
               type="password"
               className="border border-gray-200 text-lg rounded-[4px] px-4 py-3 placeholder-gray-500 focus:placeholder-gray-400 focus:outline-none focus:border-blue-500 caret-blue-500 focus:shadow-sm mt-5"
               placeholder="Password"
+              name="password"
+              value={formData.password}
+              onChange={handleDataOnChange}
             />
             <Button
               buttonName="Log In"
