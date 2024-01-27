@@ -7,12 +7,14 @@ const Layout = () => {
   const isLoginPage = location.pathname === "/";
 
   return (
-    <div className="flex flex-col h-screen">
-      {!isLoginPage && <Header />}
-      <main className="flex-grow bg-gray-100">
+    <div className="flex flex-col w-screen h-full bg-gray-100">
+      {isLoginPage && <Header />}
+      <main className="flex flex-grow">
         <Outlet />
       </main>
-      <Footer />
+      <footer className="bg-white w-full">
+        <Footer />
+      </footer>
     </div>
   );
 };
