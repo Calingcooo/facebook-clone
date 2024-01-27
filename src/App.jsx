@@ -1,11 +1,19 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Layout from "./Layout";
+import Login from "./pages/Login";
+import Home from "./pages/ProtectedRoutes/Home";
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  return <h1 className="font-bold">test</h1>;
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  
+  return (
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route path="/" element={!isLoggedIn ? <Login /> : <Home />} />
+      </Route>
+    </Routes>
+  );
 }
 
 export default App;
