@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../redux/reducers/auth/auth";
 import axios from "axios";
 import Button from "../components/styled-components/Button";
-import fb_logo from "../assets/fb_logo.png";
+import fb_logo from "../assets/fb_logo.webp";
 
 const Login = () => {
   const [formData, setFormData] = useState({

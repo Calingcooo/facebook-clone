@@ -3,15 +3,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/reducers/auth/auth";
 
 const Home = () => {
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    alert("Paalam tanga!")
-    dispatch((logout()))
-  }
+    alert("Paalam tanga!");
+    dispatch(logout());
+  };
 
-  console.log(isLoggedIn)
+  console.log(isLoggedIn);
 
   return (
     <div>
