@@ -63,7 +63,10 @@ const Login = () => {
         </h1>
       </div>
       <div className="flex flex-col items-center w-full max-w-[396px]">
-        <div className="w-full form-container pt-3 pb-5 px-4 rounded-lg bg-white">
+        <div
+          className="w-full form-container-shadow
+         pt-3 pb-5 px-4 rounded-lg bg-white"
+        >
           <form className="flex flex-col w-full" onSubmit={handleLogin}>
             <input
               type="email"
