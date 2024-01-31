@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/reducers/auth/auth";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 import axios from "axios";
 import Button from "../components/styled-components/Button";
-import fb_logo from "../assets/fb_logo.png";
+import fb_logo from "../assets/fb_logo.webp";
+import SignUp from "./SignUp";
 
 const Login = () => {
+  const [signUpModal, setSignUpModal] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -19,6 +23,10 @@ const Login = () => {
     });
   };
 
+  const handleSignUp = () => {
+    setSignUpModal(!signUpModal);
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -27,11 +35,18 @@ const Login = () => {
         {
           email: formData.email,
           password: formData.password,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
         }
       );
-      console.log(data);
-      alert("Welcome sayo tanga!");
-      dispatch(login());
+
+      const cookie = Cookies.get("session");
+      const c_user = jwtDecode(cookie)
+      localStorage.setItem("c_user", JSON.stringify(c_user));
+
+      dispatch(login(c_user));
     } catch (error) {
       alert("Mali ang email at password, tanga ka talaga!");
       console.log(error);
@@ -40,7 +55,7 @@ const Login = () => {
 
   console.log(formData);
   return (
-    <div className="flex flex-row max-w-[975px] m-auto justify-between py-40">
+    <div className="flex flex-row max-w-[975px] md:m-auto justify-between py-20">
       <div className="flex-wrap  pr-8 pt-16">
         <img src={fb_logo} className="w-64 border-0" />
         <h1 className="text-2xl mt-2 pr-20">
@@ -82,6 +97,7 @@ const Login = () => {
             <Button
               buttonName="Create new account"
               buttonStyle="bg-green-500 hover:bg-green-600 font-bold text-md tracking-wide text-white px-8 py-3 rounded-md ease-in-out duration-300 transition"
+              onClick={handleSignUp}
             />
           </div>
         </div>
@@ -92,6 +108,7 @@ const Login = () => {
           for a celebrity, brand or business.
         </p>
       </div>
+      {signUpModal && <SignUp />}
     </div>
   );
 };
