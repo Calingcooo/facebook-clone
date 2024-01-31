@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import Button from "../components/styled-components/Button";
 import fb_logo from "../assets/fb_logo.webp";
-import SignUp from "./SignUp";
+import SignUp from "../components/Signup-form";
 
 const Login = () => {
   const [signUpModal, setSignUpModal] = useState(false);
@@ -21,10 +21,6 @@ const Login = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-  };
-
-  const handleSignUp = () => {
-    setSignUpModal(!signUpModal);
   };
 
   const handleLogin = async (e) => {
@@ -43,7 +39,7 @@ const Login = () => {
       );
 
       const cookie = Cookies.get("session");
-      const c_user = jwtDecode(cookie)
+      const c_user = jwtDecode(cookie);
       localStorage.setItem("c_user", JSON.stringify(c_user));
 
       dispatch(login(c_user));
@@ -53,7 +49,11 @@ const Login = () => {
     }
   };
 
-  console.log(formData);
+  const handleSignUp = () => {
+    setSignUpModal(true);
+  };
+
+  console.log(signUpModal);
   return (
     <div className="flex flex-row max-w-[975px] md:m-auto justify-between py-20">
       <div className="flex-wrap  pr-8 pt-16">
@@ -97,7 +97,7 @@ const Login = () => {
             <Button
               buttonName="Create new account"
               buttonStyle="bg-green-500 hover:bg-green-600 font-bold text-md tracking-wide text-white px-8 py-3 rounded-md ease-in-out duration-300 transition"
-              onClick={handleSignUp}
+              onClickHandleF={handleSignUp}
             />
           </div>
         </div>
