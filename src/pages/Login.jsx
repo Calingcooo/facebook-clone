@@ -1,12 +1,20 @@
 import { useState } from "react";
+
+// Redux
 import { useDispatch } from "react-redux";
 import { login } from "../redux/reducers/auth/auth";
+
+// Libraries
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 import axios from "axios";
+
+// Components
 import Button from "../components/styled-components/Button";
-import fb_logo from "../assets/fb_logo.webp";
 import SignUp from "../components/Signup-form";
+
+// Assets
+import fb_logo from "../assets/fb_logo.webp";
 
 const Login = () => {
   const [signUpModal, setSignUpModal] = useState(false);
@@ -26,8 +34,9 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      const BASE_URI = import.meta.env.VITE_REACT_APP_API;
       const { data } = await axios.post(
-        "http://localhost:3000/auth/api/login",
+        `${BASE_URI}/auth/api/login`,
         {
           email: formData.email,
           password: formData.password,
@@ -38,14 +47,15 @@ const Login = () => {
         }
       );
 
-      const cookie = Cookies.get("session");
-      const c_user = jwtDecode(cookie);
-      localStorage.setItem("c_user", JSON.stringify(c_user));
+      console.log(data)
 
-      dispatch(login(c_user));
+      // const cookie = Cookies.get("session");
+      // const c_user = jwtDecode(cookie);
+      // localStorage.setItem("c_user", JSON.stringify(c_user));
+
+      // dispatch(login(c_user));
     } catch (error) {
-      alert("Mali ang email at password, tanga ka talaga!");
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -111,7 +121,7 @@ const Login = () => {
           for a celebrity, brand or business.
         </p>
       </div>
-      {signUpModal && <SignUp />}
+      {signUpModal && <SignUp setSignUpModal={setSignUpModal}/>}
     </div>
   );
 };
