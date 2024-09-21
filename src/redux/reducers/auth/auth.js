@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 
 export const loginSlice = createSlice({
   name: "auth",
   initialState: {
-    isLoggedIn: false,
-    user: null,
+    isLoggedIn: Cookies.get("session") ? true : false,
+    user: localStorage.getItem(JSON.stringify("c_user")),
   },
   reducers: {
     login: (state, action) => {
@@ -14,6 +15,8 @@ export const loginSlice = createSlice({
     logout: (state) => {
       state.isLoggedIn = false;
       state.user = null;
+      Cookies.remove("session", { path: "/" });
+      localStorage.removeItem("c_user");
     },
   },
 });
